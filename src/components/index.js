@@ -1,2 +1,4 @@
-import Movies from "./Movies";
-export { Movies };
+import Movies from './Movies';
+import Sinopsis from './Sinopsis';
+
+export { Movies, Sinopsis };

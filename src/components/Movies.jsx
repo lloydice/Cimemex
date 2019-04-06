@@ -1,57 +1,53 @@
 import React, { Component } from "react";
 import { Card, Col, Row } from "antd";
+import { Link } from "react-router-dom";
+
+import { getPeliculas } from '../request';
 
 const { Meta } = Card;
 
 class Movies extends Component {
-  render() {
-    return (
-      <Row gutter={32}>
-        <Col span={6}>
-          <Card
-            hoverable
-            style={{ width: 240 }}
-            cover={
-              <img
-                alt="example"
-                src="https://static.cinepolis.com/img/peliculas/30669/1/1/30669.jpg"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </Col>
-        <Col span={6}>
-          <Card
-            hoverable
-            style={{ width: 240 }}
-            cover={
-              <img
-                alt="example"
-                src="https://static.cinepolis.com/img/peliculas/30475/1/1/30475.jpg"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </Col>
+  state = {
+    movies: []
+  }
 
-        <Col span={6}>
-          <Card
-            hoverable
-            style={{ width: 240 }}
-            cover={
-              <img
-                alt="example"
-                src="https://static.cinepolis.com/img/peliculas/30470/1/1/30470.jpg"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </Col>
-        <Col span={6} />
-      </Row>
+  componentDidMount() {
+    getPeliculas()
+      .then(res => {
+        const movies = res.data;
+        this.setState({ movies });
+      }).catch((error) => console.log(error))
+  }
+
+  render() {
+    const { movies } = this.state;
+    const { match } = this.props;
+
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto' }}>
+        {
+          movies.map((movie) => {
+            const { nombre, imagen, duracion, id } = movie;
+            return <div style={{ padding: '20px', display: 'flex', justifyContent: 'center' }} key={id}>
+              <Link to={`${match.url}sinopsis/${id}`}>
+                <Card
+                  hoverable
+                  style={{ width: 240 }}
+                  cover={
+                    <img
+                      height="350"
+                      alt="example"
+                      src={imagen}
+                    />
+                  }
+                >
+                  <Meta title={nombre} description={`${duracion} minutos`} />
+                </Card>
+              </Link>
+            </div>
+          })
+        }
+      </div>
     );
   }
 }

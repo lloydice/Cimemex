@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import './login.css';
+import { login } from '../request';
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
+    this.login = this.login.bind(this);
+
     this.state = {
       email: '',
       password: '',
+      error: '',
     };
+  }
+
+  login() {
+    const { email, password } = this.state;
+    login(email, password)
+      .then((res) => {
+        console.log(res);
+      }).catch((error) => console.log(error))
   }
 
   render() {
@@ -40,7 +52,7 @@ class Login extends Component {
             <button
               type="button"
               className="btn"
-              onClick={() => console.log('Le di click al boton')}
+              onClick={() => this.login()}
             >
               Iniciar sesión
             </button>

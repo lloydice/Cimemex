@@ -3,6 +3,7 @@ import { Layout, Menu, Breadcrumb } from "antd";
 import { Movies, Sinopsis } from "../components";
 import Login from './Login';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import CreateMovie from './CreateMovie';
 
 const { Header, Content, Footer } = Layout;
 
@@ -25,6 +26,7 @@ class Main extends Component {
             <Route exact path="/" component={Movies} />
             <Route path="/sinopsis/:id" component={Sinopsis} />
             <Route path="/login" component={Login} />
+            <Route path="/CrearPelicula" component={CreateMovie} />
           </Content>
           <Footer style={{ textAlign: "center" }}>Gray Team Design 2019</Footer>
         </Layout>

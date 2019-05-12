@@ -10,9 +10,11 @@ const getPeliculas = () => axios.get('http://localhost:8080/peliculas', { header
 
 const getPelicula = id => axios.get(`http://localhost:8080/peliculas/${id}`, { headers });
 const login = (email, pass) => axios.post('http://localhost:8080/login', { email, pass }, { headers });
+const createPelicula = params => axios.post('http://localhost:8080/peliculas', params, { headers });
 
 export {
   getPeliculas,
   getPelicula,
   login,
+  createPelicula,
 };

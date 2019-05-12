@@ -19,13 +19,12 @@ class Login extends Component {
     const { email, password } = this.state;
     login(email, password)
       .then((res) => {
-        console.log(res);
+        this.props.history.push('/CrearPelicula');
       }).catch((error) => console.log(error))
   }
 
   render() {
     const { email, password } = this.state;
-    console.log(this.state)
     return (
       <div className="login-content">
         <div className="center-div">

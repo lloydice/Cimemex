@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Steps, Button, message, InputNumber, Spin, Select } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCouch } from '@fortawesome/free-solid-svg-icons';
+import shortid from 'shortid';
 
-import { getSala } from '../request';
+import { getSala, createTicket } from '../request';
 import './login.css';
 
 const { Step } = Steps;
@@ -154,7 +155,34 @@ const Sala = (props) => {
       }).catch((error) => console.log(error))
   }, []);
 
-  console.log(card)
+  const saveTicket = () => {
+    const { match } = props;
+    const { params } = match;
+    const { idCartelera } = params;
+    const { name, cardNumber } = card;
+    const parameters = {
+      folio: shortid.generate(),
+      billboard: idCartelera,
+      ticketNumber: tickets,
+      seatNumber: selectedSeating,
+      customerName: name,
+      creditCard: cardNumber.substr(cardNumber.length - 4),
+    };
+    console.log('here')
+    createTicket(parameters)
+      .then((response) => {
+        setTimeout(() => {
+          console.log('here 1');
+          setLoader(false);
+          const ticketId = response.data;
+          props.history.push(`/ticket/${ticketId}`);
+        }, 5000);
+      }).catch((error) => setLoader(false))
+
+
+  };
+
+  console.log(loader)
 
   return (
     <div style={{ height: '50rem' }}>
@@ -168,17 +196,16 @@ const Sala = (props) => {
           <div className="steps-content">{steps[current].content({ tickets, setTickets, sala, selectedSeating, setSelectedSeating, card, setCard })}</div>
           <div className="steps-action">
             {current < steps.length - 1 && (
-              <Button type="primary" onClick={() => { setCurrent(current + 1); setSelectedSeating([]); }}>
+              <Button type="primary" onClick={() => { setCurrent(current + 1); if (current !== 1) setSelectedSeating([]); }}>
                 Next
             </Button>
             )}
             {current === steps.length - 1 && (
-              <Button type="primary" 
-              onClick={() => {
-                setLoader(true); setTimeout(() => {
-                  setLoader(false);
-                }, 5000);
-              }}>
+              <Button type="primary"
+                onClick={() => {
+                  setLoader(true);
+                  saveTicket();
+                }}>
                 Done
             </Button>
             )}

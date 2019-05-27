@@ -47,7 +47,7 @@ class Sinopsis extends Component {
           <div>
             {
               cartelera.map(item =>(
-                <Link to={`${match.url}/sala/${item.sala}`}>
+                <Link to={`${match.url}/sala/${item.sala}/cartelera/${item.id}`}>
                   <Badge count={item.horario} style={{ margin: '10px', marginLeft: '0px', backgroundColor: '#001529', cursor: 'pointer' }} />
                 </Link>
               ))

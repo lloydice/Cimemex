@@ -13,6 +13,9 @@ const login = (email, pass) => axios.post('http://localhost:8080/login', { email
 const createPelicula = params => axios.post('http://localhost:8080/peliculas', params, { headers });
 const getCartelera = id => axios.get(`http://localhost:8080/peliculas/${id}/cartelera`, { headers });
 const getSala = id => axios.get(`http://localhost:8080/salas/${id}`, { headers });
+const createTicket = params => axios.post('http://localhost:8080/tickets', params, { headers });
+const getTicket = id => axios.get(`http://localhost:8080/tickets/${id}`, { headers });
+const getCarteleraById = id => axios.get(`http://localhost:8080/cartelera/${id}`, { headers });
 
 export {
   getPeliculas,
@@ -21,4 +24,7 @@ export {
   createPelicula,
   getCartelera,
   getSala,
+  createTicket,
+  getTicket,
+  getCarteleraById,
 };
